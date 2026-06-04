@@ -1,12 +1,4 @@
-// import React from 'react'
 
-// const Favourites = () => {
-//   return (
-//     <div>Favourites</div>
-//   )
-// }
-
-// export default Favourites;
 import React from 'react';
 import { FavouritesData } from '../context/FavouritesContext.jsx';
 import { Link } from 'react-router-dom';

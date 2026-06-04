@@ -61,7 +61,7 @@ export const UserProvider = ({children}) =>
             const { data } = await axios.post(`${server}/api/user/verify`, {email , otp});
 
             toast.success(data.message);
-            localStorage.clear();
+            localStorage.removeItem("email");
             // navigate to home page after successful login
             navigate("/");
 
