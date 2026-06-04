@@ -55,6 +55,7 @@ import OrderProcessing from "./pages/OrderProcessing.jsx";
 import Orders from "./pages/Orders.jsx";
 import OrderPage from "./pages/OrderPage.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
+import Favourites from "./pages/Favourites.jsx";
 
 const App = () => {
   const { isAuth, loading } = UserData();
@@ -98,6 +99,13 @@ const App = () => {
               path="/ordersuccess"
               element={isAuth ? <OrderProcessing /> : <Login />}
             />
+
+            <Route
+              path="/favourites"
+              element={isAuth ? <Favourites /> : <Login />}
+            />
+
+            
 
             <Route path="*" element={<NotFound />} />
             <Route path="/login" element={isAuth ? <Home /> : <Login />} />

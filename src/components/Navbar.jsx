@@ -19,6 +19,7 @@ import { ModeToggle } from "./mode-toggle.jsx";
 import { UserData } from "@/context/UserContext.jsx";
 import { CartData } from "@/context/CartContext.jsx";
 
+
 const Navbar = () => {
   const navigate = useNavigate();
   const { isAuth, logoutUser, user } = UserData();
@@ -114,9 +115,9 @@ const Navbar = () => {
                         Notifications
                       </DropdownMenuItem>
 
-                      {/* Favourites/ to mark a product as favourite will be implemented later */}
+                      {/* Favourites/ to mark a product as favourite will be implemented later and we will add products here marked as favourite by the user  */}
 
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate("/favourites")}>
                       
                         Favourites
                       </DropdownMenuItem>

@@ -21,6 +21,7 @@ import Cookies from "js-cookie";
 import { Edit, Loader, X } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { FavouritesData } from "@/context/FavouritesContext.jsx";
 
 const ProductPage = () => {
   const { fetchProduct, product, relatedProduct, loading } = ProductData();
@@ -92,60 +93,66 @@ const ProductPage = () => {
     }
   };
 
-  // update the images of the product is also a feature that admin can do 
+  // update the images of the product is also a feature that admin can do
 
   const [updatedImages, setUpdatedImages] = useState(null);
-
 
   const handleSubmitImage = async (e) => {
     e.preventDefault();
     setBtnLoading(true);
 
-    if(!updatedImages || updatedImages.length === 0){
+    if (!updatedImages || updatedImages.length === 0) {
       toast.error("Please select new images to update.");
       setBtnLoading(false);
       return;
     }
 
-    
-
-
     const formData = new FormData();
 
-    for(let i=0; i<updatedImages.length; i++){
+    for (let i = 0; i < updatedImages.length; i++) {
       formData.append("files", updatedImages[i]);
     }
 
-
-    try{
-
-      const {data} = await axios.post(`${server}/api/product/${id}`, formData, {
-        headers:{
-          token: Cookies.get("token"),
-          "Content-Type": "multipart/form-data",
-        }
-      });
+    try {
+      const { data } = await axios.post(
+        `${server}/api/product/${id}`,
+        formData,
+        {
+          headers: {
+            token: Cookies.get("token"),
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
 
       toast.success(data.message);
       fetchProduct(id);
       setBtnLoading(false);
-
-
-
-    }
-
-
-    catch(error){
+    } catch (error) {
       console.log("Error updating product images:", error);
       toast.error(
         error.response.data.message ||
           "Failed to update product images. Please try again.",
       );
-       setBtnLoading(false);
+      setBtnLoading(false);
     }
-  }
+  };
 
+  // favourites functionality
 
+  // const { toggleFavourite, favourites } = FavouriteData();
+
+  // const addToFavouriteHandler = () => {
+  //   if (!isAuth) {
+  //     toast.error("Please login first");
+  //     return;
+  //   }
+
+  //   toggleFavourite(product);
+  // };
+
+  // 2. Inside the ProductPage component, destructure the functions you need:
+const { addToFavourites, removeFromFavourites, isFavourite } = FavouritesData();
 
   return (
     <>
@@ -230,8 +237,6 @@ const ProductPage = () => {
                     >
                       {btnLoading ? <Loader /> : "Update Product"}
                     </Button>
-
-
                   </div>
                 )}
               </div>
@@ -260,21 +265,34 @@ const ProductPage = () => {
 
                   {/* Image update form for admin */}
 
-                  {user && user.role === "admin" && 
-                  <form onSubmit={handleSubmitImage} className="flex flex-col gap-4">
-                    <div>
-                      <Label className="mt-2 font-semibold">Upload new image</Label>
-                      <Input  className="block w-full mt-1 text-sm" type="file" name="files" id="files" multiple accept="image/*" onChange={(e) => setUpdatedImages(e.target.files)} />
-                      <Button className="mt-1" type="submit" disabled={btnLoading}>
-                        {btnLoading ? <Loader /> : "Update Image"}
-                      </Button>
-                    </div>
-                  </form>
-                  
-                  
-                  }
-
-
+                  {user && user.role === "admin" && (
+                    <form
+                      onSubmit={handleSubmitImage}
+                      className="flex flex-col gap-4"
+                    >
+                      <div>
+                        <Label className="mt-2 font-semibold">
+                          Upload new image
+                        </Label>
+                        <Input
+                          className="block w-full mt-1 text-sm"
+                          type="file"
+                          name="files"
+                          id="files"
+                          multiple
+                          accept="image/*"
+                          onChange={(e) => setUpdatedImages(e.target.files)}
+                        />
+                        <Button
+                          className="mt-1"
+                          type="submit"
+                          disabled={btnLoading}
+                        >
+                          {btnLoading ? <Loader /> : "Update Image"}
+                        </Button>
+                      </div>
+                    </form>
+                  )}
                 </div>
 
                 <div className="w-full lg:w-1/2 space-y-4">
@@ -288,12 +306,37 @@ const ProductPage = () => {
                           Out of Stock !
                         </p>
                       ) : (
-                        <Button
-                          onClick={addToCartHandler}
-                          className="rounded-2xl bg-blue-500 hover:bg-blue-600  dark:text-white font-semibold"
-                        >
-                          Add to Cart
-                        </Button>
+                        <>
+                          <Button
+                            onClick={addToCartHandler}
+                            className="rounded-2xl bg-blue-500 hover:bg-blue-600  dark:text-white font-semibold"
+                          >
+                            Add to Cart
+                          </Button>
+
+                          {/* <Button  className="rounded-2xl bg-blue-500 hover:bg-blue-600  dark:text-white font-semibold mx-2">
+                          Add to Favourites
+                        </Button> */}
+
+                        {/* // 3. Update your Add to Favourites button in the JSX: */}
+                          {isFavourite(product._id) ? (
+                            <Button
+                              onClick={() => removeFromFavourites(product._id)}
+                              className="rounded-2xl bg-red-500 hover:bg-red-600 dark:text-white font-semibold mx-2"
+                            >
+                              Remove Favourite
+                            </Button>
+                          ) : (
+                            <Button
+                              onClick={() => addToFavourites(product)}
+                              className="rounded-2xl bg-blue-500 hover:bg-blue-600 dark:text-white font-semibold mx-2"
+                            >
+                              Add to Favourites
+                            </Button>
+                          )}
+
+                         
+                        </>
                       )}
                     </>
                   ) : (
