@@ -89,7 +89,7 @@ const Navbar = () => {
                   <DropdownMenuLabel variant="default">
                     Account: {isAuth ? email : "Guest"}
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
+                  <DropdownMenuSeparator className="bg-gray-400" />
                   {!isAuth ? (
                     <>
                       <DropdownMenuItem onClick={() => navigate("/login")}>

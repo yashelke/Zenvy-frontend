@@ -111,6 +111,7 @@ const HomePage = () => {
 
     <div className="flex justify-between">
         <h2 className="text-2xl font-bold">All Products</h2>
+       
 
 {/* dialog box for adding a product by the admin */}
 

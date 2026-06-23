@@ -43,7 +43,9 @@ const OrdersPage = () => {
     }
   };
 
-  // search filter for orders based on user email or order id and date
+
+  // Universal Filtering
+  // search filter for orders based on user email or order id and date or payment method or status
 
   const filteredOrders = Array.isArray(orders)
     ? orders.filter(
@@ -53,7 +55,10 @@ const OrdersPage = () => {
           moment(order.createdAt)
             .format("DD MMM YYYY, h:mm A")
             .toLowerCase()
-            .includes(search.toLowerCase()),
+            .includes(search.toLowerCase()) ||
+            order?.method?.toLowerCase().includes(search.toLowerCase()) ||
+            order?.status?.toLowerCase().includes(search.toLowerCase()),
+          
       )
     : [];
 
@@ -108,6 +113,7 @@ const OrdersPage = () => {
                   <TableHead>Order ID</TableHead>
                   <TableHead>User Email</TableHead>
                   <TableHead>Total</TableHead>
+                  <TableHead>Payment Method</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Date</TableHead>
                   <TableHead>Actions</TableHead>
@@ -124,6 +130,8 @@ const OrdersPage = () => {
                     <TableCell>{order.user.email}</TableCell>
 
                     <TableCell>{order.subTotal}</TableCell>
+
+                    <TableCell>{order.method}</TableCell>
 
                     <TableCell>
                       <span
