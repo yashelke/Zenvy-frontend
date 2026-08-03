@@ -125,7 +125,7 @@ const HomePage = () => {
 
            <DialogContent>
             <DialogHeader>
-                <DialogTitle>Add a new Product</DialogTitle>
+                <DialogTitle className={`text-center`}>Add a new Product</DialogTitle>
             </DialogHeader>
 
             <form onSubmit={submitHandler} className="space-y-4">

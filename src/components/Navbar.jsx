@@ -5,7 +5,7 @@ import {
   ShoppingBag,
   ShoppingBasket,
 } from "lucide-react";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
@@ -21,6 +21,7 @@ import { CartData } from "@/context/CartContext.jsx";
 
 
 const Navbar = () => {
+  const navbarRef = useRef(null);
   const navigate = useNavigate();
   const { isAuth, logoutUser, user } = UserData();
   const email = user?.email;
@@ -31,13 +32,40 @@ const Navbar = () => {
     logoutUser(navigate, setTotalItem);
   };
 
+  useEffect(() => {
+    const navbarElement = navbarRef.current;
+
+    if (!navbarElement) {
+      return undefined;
+    }
+
+    const updateNavbarHeight = () => {
+      document.documentElement.style.setProperty(
+        "--site-navbar-height",
+        `${navbarElement.offsetHeight}px`
+      );
+    };
+
+    updateNavbarHeight();
+
+    const resizeObserver = new ResizeObserver(updateNavbarHeight);
+    resizeObserver.observe(navbarElement);
+
+    window.addEventListener("resize", updateNavbarHeight);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updateNavbarHeight);
+    };
+  }, []);
+
   console.log(user);
 
   return (
     <>
       {/* <div>Navbar</div> */}
 
-      <div className="z-50 sticky top-0 bg-background/50 border-b backdrop-blur">
+      <div ref={navbarRef} className="z-50 sticky top-0 bg-background/50 border-b backdrop-blur">
         <div className="w-full px-4 sm:px-6 md:px-8 py-4 flex flex-col md:flex-row items-center justify-between border-b-2 border-gray-400 dark:border-b-2 dark:border-blue-500 ">
           {/* <h1 className="text-2xl font-bold">Ecommerce</h1> */}
           <div className="flex items-center gap-2 sm:gap-3 mb-4 md:mb-0">
