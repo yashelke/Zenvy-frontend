@@ -43,6 +43,7 @@ function PaginationItem({
 function PaginationLink({
   className,
   isActive,
+  isDisabled,
   size = "icon",
   ...props
 }) {
@@ -51,10 +52,16 @@ function PaginationLink({
       aria-current={isActive ? "page" : undefined}
       data-slot="pagination-link"
       data-active={isActive}
-      className={cn(buttonVariants({
-        variant: isActive ? "outline" : "ghost",
-        size,
-      }), className)}
+      aria-disabled={isDisabled ? "true" : undefined}
+      tabIndex={isDisabled ? -1 : undefined}
+      className={cn(
+        buttonVariants({
+          variant: isActive ? "outline" : "ghost",
+          size,
+        }),
+        isDisabled && "pointer-events-none opacity-50",
+        className
+      )}
       {...props} />
   );
 }

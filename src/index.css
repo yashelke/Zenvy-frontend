@@ -10,6 +10,14 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+.admin-chart .recharts-cartesian-axis-tick text {
+  fill: #71717a !important;
+}
+
+.dark .admin-chart .recharts-cartesian-axis-tick text {
+  fill: #c084fc !important;
+}
+
 
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
