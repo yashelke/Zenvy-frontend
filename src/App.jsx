@@ -57,6 +57,68 @@ import OrderPage from "./pages/OrderPage.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import Favourites from "./pages/Favourites.jsx";
 
+// last Modified: Yash Shelke
+//  01/09/2026
+// disabling footer component for admin Pages.
+
+import { useLocation } from "react-router-dom";
+
+// Inner component to use useLocation inside Router context
+const AppContent = ({ isAuth }) => {
+  const location = useLocation();
+  const isAdminPage = location.pathname === "/admin/dashboard" || location.pathname.startsWith("/admin");
+
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/cart" element={isAuth ? <Cart /> : <Login />} />
+        <Route path="/orders" element={isAuth ? <Orders /> : <Login />} />
+        <Route
+          path="/order/:id"
+          element={isAuth ? <OrderPage /> : <Login />}
+        />
+
+        <Route
+          path="/admin/dashboard"
+          element={isAuth ? <AdminDashboard /> : <Login />}
+        />
+
+        <Route
+          path="/checkout"
+          element={isAuth ? <Checkout /> : <Login />}
+        />
+
+        <Route
+          path="/payment/:id"
+          element={isAuth ? <Payment /> : <Login />}
+        />
+
+        <Route
+          path="/ordersuccess"
+          element={isAuth ? <OrderProcessing /> : <Login />}
+        />
+
+        <Route
+          path="/favourites"
+          element={isAuth ? <Favourites /> : <Login />}
+        />
+
+        
+
+        <Route path="*" element={<NotFound />} />
+        <Route path="/login" element={isAuth ? <Home /> : <Login />} />
+        <Route path="/verify" element={isAuth ? <Home /> : <Verify />} />
+      </Routes>
+
+      {!isAdminPage && <Footer />}
+    </>
+  );
+};
+
 const App = () => {
   const { isAuth, loading } = UserData();
 
@@ -68,50 +130,7 @@ const App = () => {
         <Loading />
       ) : (
         <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/product/:id" element={<ProductPage />} />
-            <Route path="/cart" element={isAuth ? <Cart /> : <Login />} />
-            <Route path="/orders" element={isAuth ? <Orders /> : <Login />} />
-            <Route
-              path="/order/:id"
-              element={isAuth ? <OrderPage /> : <Login />}
-            />
-
-            <Route
-              path="/admin/dashboard"
-              element={isAuth ? <AdminDashboard /> : <Login />}
-            />
-
-            <Route
-              path="/checkout"
-              element={isAuth ? <Checkout /> : <Login />}
-            />
-
-            <Route
-              path="/payment/:id"
-              element={isAuth ? <Payment /> : <Login />}
-            />
-
-            <Route
-              path="/ordersuccess"
-              element={isAuth ? <OrderProcessing /> : <Login />}
-            />
-
-            <Route
-              path="/favourites"
-              element={isAuth ? <Favourites /> : <Login />}
-            />
-
-            
-
-            <Route path="*" element={<NotFound />} />
-            <Route path="/login" element={isAuth ? <Home /> : <Login />} />
-            <Route path="/verify" element={isAuth ? <Home /> : <Verify />} />
-          </Routes>
-          <Footer />
+          <AppContent isAuth={isAuth} />
         </BrowserRouter>
       )}
       {/* <BrowserRouter>
