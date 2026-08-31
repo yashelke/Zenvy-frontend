@@ -211,7 +211,7 @@ const OrdersPage = () => {
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Manage orders</h1>
           <p className="mt-1 text-sm text-muted-foreground">Track fulfilment and keep every order moving.</p>
         </div>
-        <p className="text-sm text-muted-foreground">{orders.length} total orders</p>
+        <p className="text-sm  dark:text-white text-black">{orders.length} total orders</p>
       </header>
 
       <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-3 shadow-sm sm:p-4 md:flex-row md:items-center">

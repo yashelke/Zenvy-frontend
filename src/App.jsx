@@ -66,7 +66,9 @@ import { useLocation } from "react-router-dom";
 // Inner component to use useLocation inside Router context
 const AppContent = ({ isAuth }) => {
   const location = useLocation();
-  const isAdminPage = location.pathname === "/admin/dashboard" || location.pathname.startsWith("/admin");
+  const isAdminPage =
+    location.pathname === "/admin/dashboard" ||
+    location.pathname.startsWith("/admin");
 
   return (
     <>
@@ -77,25 +79,16 @@ const AppContent = ({ isAuth }) => {
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={isAuth ? <Cart /> : <Login />} />
         <Route path="/orders" element={isAuth ? <Orders /> : <Login />} />
-        <Route
-          path="/order/:id"
-          element={isAuth ? <OrderPage /> : <Login />}
-        />
+        <Route path="/order/:id" element={isAuth ? <OrderPage /> : <Login />} />
 
         <Route
           path="/admin/dashboard"
           element={isAuth ? <AdminDashboard /> : <Login />}
         />
 
-        <Route
-          path="/checkout"
-          element={isAuth ? <Checkout /> : <Login />}
-        />
+        <Route path="/checkout" element={isAuth ? <Checkout /> : <Login />} />
 
-        <Route
-          path="/payment/:id"
-          element={isAuth ? <Payment /> : <Login />}
-        />
+        <Route path="/payment/:id" element={isAuth ? <Payment /> : <Login />} />
 
         <Route
           path="/ordersuccess"
@@ -106,8 +99,6 @@ const AppContent = ({ isAuth }) => {
           path="/favourites"
           element={isAuth ? <Favourites /> : <Login />}
         />
-
-        
 
         <Route path="*" element={<NotFound />} />
         <Route path="/login" element={isAuth ? <Home /> : <Login />} />
